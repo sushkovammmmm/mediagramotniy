@@ -134,28 +134,12 @@ function checkAnswer(selectedIndex) {
         selectedButton.classList.add('wrong');
         correctButton.classList.add('correct');
         
-        // Создаем и показываем кнопку "Начать заново"
-        const restartButton = document.createElement('button');
-        restartButton.textContent = 'Начать заново';
-        restartButton.className = 'restart-button';
-        restartButton.style.marginTop = '20px';
-        restartButton.addEventListener('click', () => {
-            // Скрываем все экраны
-            startScreen.style.display = 'none';
-            rulesScreen.style.display = 'none';
-            gameScreen.style.display = 'none';
-            endScreen.style.display = 'none';
-            
-            // Показываем стартовый экран
-            startScreen.style.display = 'block';
-            
-            // Удаляем кнопку "Начать заново"
-            restartButton.remove();
-        });
-        
-        // Добавляем кнопку после ответов
-        const answersContainer = document.querySelector('.answers');
-        answersContainer.appendChild(restartButton);
+        // Показываем экран окончания игры
+        setTimeout(() => {
+            gameScreen.classList.add('hidden');
+            endScreen.classList.remove('hidden');
+            document.getElementById('final-score').textContent = score;
+        }, 1500);
     }
 }
 
@@ -342,11 +326,9 @@ startGameButton.addEventListener('click', function() {
 
 restartButton.addEventListener('click', startGame);
 
-answerButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        const selectedIndex = parseInt(button.dataset.index);
-        checkAnswer(selectedIndex);
-    });
+// Добавляем обработчики для кнопок ответов
+answerButtons.forEach((button, index) => {
+    button.addEventListener('click', () => checkAnswer(index));
 });
 
 // Добавляем обработчики событий для подсказок
