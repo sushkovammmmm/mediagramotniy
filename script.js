@@ -17,12 +17,11 @@ const gameScreen = document.getElementById('game-screen');
 const endScreen = document.getElementById('end-screen');
 const startButton = document.getElementById('start-button');
 const startGameButton = document.getElementById('start-game-button');
-const restartButton = document.getElementById('restart-button');
 const questionText = document.getElementById('question-text');
 const answerButtons = document.querySelectorAll('.answer-btn');
 const currentScoreElement = document.getElementById('current-score');
 const currentQuestionElement = document.getElementById('current-question');
-const endMessage = document.getElementById('end-message');
+const finalScoreElement = document.getElementById('final-score');
 
 // Получаем элементы подсказок
 const fiftyFiftyBtn = document.getElementById('fifty-fifty');
@@ -82,12 +81,12 @@ function startGame() {
     showQuestion();
     
     // Скрываем все экраны
-    startScreen.style.display = 'none';
-    rulesScreen.style.display = 'none';
-    endScreen.style.display = 'none';
+    startScreen.classList.add('hidden');
+    rulesScreen.classList.add('hidden');
+    endScreen.classList.add('hidden');
     
     // Показываем экран игры
-    gameScreen.style.display = 'block';
+    gameScreen.classList.remove('hidden');
     
     resetHints();
 }
@@ -138,7 +137,7 @@ function checkAnswer(selectedIndex) {
         setTimeout(() => {
             gameScreen.classList.add('hidden');
             endScreen.classList.remove('hidden');
-            document.getElementById('final-score').textContent = score;
+            finalScoreElement.textContent = score;
         }, 1500);
     }
 }
@@ -152,11 +151,7 @@ function updateScore() {
 function endGame(isWin) {
     gameScreen.classList.add('hidden');
     endScreen.classList.remove('hidden');
-    if (isWin) {
-        endMessage.textContent = 'Поздравляю, вы - медиаграмотный!';
-    } else {
-        endMessage.textContent = `Игра окончена! Ваш счет: ${score}`;
-    }
+    finalScoreElement.textContent = score;
 }
 
 // Функция для сброса подсказок
@@ -313,18 +308,14 @@ function useAudienceHelp() {
 
 // Добавляем обработчики событий
 startButton.addEventListener('click', function() {
-    startScreen.style.display = 'none';
-    rulesScreen.style.display = 'block';
-    gameScreen.style.display = 'none';
-    endScreen.style.display = 'none';
+    startScreen.classList.add('hidden');
+    rulesScreen.classList.remove('hidden');
+    gameScreen.classList.add('hidden');
+    endScreen.classList.add('hidden');
     playSound('sound-start');
 });
 
-startGameButton.addEventListener('click', function() {
-    startGame();
-});
-
-restartButton.addEventListener('click', startGame);
+startGameButton.addEventListener('click', startGame);
 
 // Добавляем обработчики для кнопок ответов
 answerButtons.forEach((button, index) => {
@@ -362,73 +353,16 @@ document.querySelectorAll('.hint-btn').forEach(btn => {
 function playSound(id) {
     const sound = document.getElementById(id);
     if (sound) {
-        sound.currentTime = 0; // Сбрасываем время воспроизведения
+        sound.currentTime = 0;
         sound.play().catch(error => {
             console.log('Ошибка воспроизведения звука:', error);
         });
     }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    const startScreen = document.getElementById('start-screen');
-    const rulesScreen = document.getElementById('rules-screen');
-    const gameScreen = document.getElementById('game-screen');
-    const startButton = document.getElementById('start-button');
-    const startGameButton = document.getElementById('start-game-button');
-    const questionElement = document.getElementById('question');
-    const answersElement = document.getElementById('answers');
-    const scoreElement = document.getElementById('score');
-    const hint5050Button = document.getElementById('hint-5050');
-    const hintCallButton = document.getElementById('hint-call');
-    const hintAudienceButton = document.getElementById('hint-audience');
-    const hint5050Used = document.getElementById('hint-5050-used');
-    const hintCallUsed = document.getElementById('hint-call-used');
-    const hintAudienceUsed = document.getElementById('hint-audience-used');
-
-    let currentQuestionIndex = 0;
-    let score = 0;
-    let questions = [];
-    let hintsUsed = {
-        '5050': false,
-        'call': false,
-        'audience': false
-    };
-
-    // Обработчик для первой кнопки "Начать игру"
-    startButton.addEventListener('click', function() {
-        startScreen.style.display = 'none';
-        rulesScreen.style.display = 'block';
-        gameScreen.style.display = 'none';
-        endScreen.style.display = 'none';
-        playSound('sound-start');
-    });
-
-    // Обработчик для второй кнопки "Начать игру" на экране правил
-    startGameButton.addEventListener('click', function() {
-        startGame();
-    });
-
-    // ... rest of the existing code ...
-});
-
 // Добавляем обработчик для кнопки "Играть заново"
 document.getElementById('play-again-button').addEventListener('click', () => {
-    // Скрываем экран окончания игры
-    document.getElementById('end-screen').classList.add('hidden');
-    
-    // Сбрасываем состояние игры
-    score = 0;
-    currentQuestionIndex = 0;
-    usedHints = {
-        fifty: false,
-        friend: false,
-        audience: false
-    };
-    
-    // Перемешиваем вопросы
-    shuffleQuestions();
-    
-    // Показываем экран с правилами
-    document.getElementById('rules-screen').classList.remove('hidden');
+    endScreen.classList.add('hidden');
+    rulesScreen.classList.remove('hidden');
     playSound('sound-start');
 }); 
