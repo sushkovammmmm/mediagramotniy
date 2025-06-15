@@ -427,4 +427,26 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ... rest of the existing code ...
+});
+
+// Добавляем обработчик для кнопки "Играть заново"
+document.getElementById('play-again-button').addEventListener('click', () => {
+    // Скрываем экран окончания игры
+    document.getElementById('end-screen').classList.add('hidden');
+    
+    // Сбрасываем состояние игры
+    score = 0;
+    currentQuestionIndex = 0;
+    usedHints = {
+        fifty: false,
+        friend: false,
+        audience: false
+    };
+    
+    // Перемешиваем вопросы
+    shuffleQuestions();
+    
+    // Показываем экран с правилами
+    document.getElementById('rules-screen').classList.remove('hidden');
+    playSound('sound-start');
 }); 
