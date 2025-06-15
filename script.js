@@ -376,11 +376,14 @@ document.querySelectorAll('.hint-btn').forEach(btn => {
     btn.addEventListener('click', () => playSound('sound-hint'));
 });
 
+// Функция для воспроизведения звуков
 function playSound(id) {
-    const audio = document.getElementById(id);
-    if (audio) {
-        audio.currentTime = 0;
-        audio.play();
+    const sound = document.getElementById(id);
+    if (sound) {
+        sound.currentTime = 0; // Сбрасываем время воспроизведения
+        sound.play().catch(error => {
+            console.log('Ошибка воспроизведения звука:', error);
+        });
     }
 }
 
