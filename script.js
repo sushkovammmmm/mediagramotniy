@@ -97,10 +97,19 @@ function showQuestion() {
     questionText.textContent = question.question;
     currentQuestionElement.textContent = currentQuestion + 1;
 
+    // Сбрасываем состояние кнопок
     answerButtons.forEach((button, index) => {
         button.textContent = question.answers[index];
         button.classList.remove('correct', 'wrong');
         button.disabled = false;
+        button.style.pointerEvents = 'auto';
+        
+        // Удаляем старые обработчики
+        button.removeEventListener('click', button.clickHandler);
+        
+        // Добавляем новый обработчик
+        button.clickHandler = () => checkAnswer(index);
+        button.addEventListener('click', button.clickHandler);
     });
 }
 
@@ -111,9 +120,13 @@ function checkAnswer(selectedIndex) {
     const correctButton = answerButtons[question.correct];
 
     // Отключаем все кнопки
-    answerButtons.forEach(button => button.disabled = true);
+    answerButtons.forEach(button => {
+        button.disabled = true;
+        button.style.pointerEvents = 'none';
+    });
 
     if (selectedIndex === question.correct) {
+        // Правильный ответ
         playSound('sound-correct');
         selectedButton.classList.add('correct');
         score += 100;
@@ -129,6 +142,7 @@ function checkAnswer(selectedIndex) {
             }
         }, 1500);
     } else {
+        // Неправильный ответ
         playSound('sound-wrong');
         selectedButton.classList.add('wrong');
         correctButton.classList.add('correct');
