@@ -8,15 +8,48 @@
 </head>
 <body>
     <div class="container">
-        <div id="start-screen" class="screen">
+        <div id="start-screen">
             <h1>Кто хочет стать медиаграмотным?</h1>
             <button id="start-button">Начать игру</button>
+        </div>
+
+        <div id="rules-screen" style="display: none;">
+            <div class="rules-content">
+                <h2>Добро пожаловать в игру "Кто хочет стать медиаграмотным?"</h2>
+                <p>Проверьте свою способность отличать правду от фейков, манипуляции от фактов и станьте настоящим экспертом в медиапространстве!</p>
+                
+                <h3>Правила игры:</h3>
+                <ul>
+                    <li>Всего вас ждёт 15 вопросов по медиаграмотности.</li>
+                    <li>На каждый вопрос — один правильный ответ из четырёх.</li>
+                    <li>За каждый правильный ответ вы получаете 100 очков.</li>
+                    <li>Чтобы победить, нужно набрать 1500 очков, ответив правильно на все вопросы.</li>
+                </ul>
+
+                <h3>Подсказки:</h3>
+                <ul>
+                    <li>50:50 — убираем два неверных варианта.</li>
+                    <li>Звонок внуку — получите дружеский совет (возможно, полезный!).</li>
+                    <li>Помощь зала — узнайте, что думает большинство игроков.</li>
+                </ul>
+
+                <p>Готовы стать медиаграмотным чемпионом?</p>
+                <p>Нажимайте «Начать игру» и вперед — к победе!</p>
+                
+                <button id="start-game-button">Начать игру</button>
+            </div>
         </div>
 
         <div id="game-screen" class="screen hidden">
             <div class="header">
                 <div class="score">Очки: <span id="current-score">0</span></div>
                 <div class="question-number">Вопрос <span id="current-question">1</span> из 15</div>
+            </div>
+
+            <div class="hints-container">
+                <button id="fifty-fifty" class="hint-btn" title="50:50">50:50</button>
+                <button id="call-friend" class="hint-btn" title="Звонок внуку">Звонок внуку</button>
+                <button id="audience-help" class="hint-btn" title="Помощь зала">Помощь зала</button>
             </div>
 
             <div class="question-container">
@@ -35,6 +68,50 @@
             <button id="restart-button">Играть снова</button>
         </div>
     </div>
+
+    <!-- Модальное окно для звонка внуку -->
+    <div id="call-friend-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="friend-image"></div>
+            <p id="friend-answer"></p>
+            <button id="close-modal">Закрыть</button>
+        </div>
+    </div>
+
+    <!-- Модальное окно для помощи зала -->
+    <div id="audience-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Помощь зала</h3>
+            <div id="audience-chart"></div>
+            <div class="chart-legend">
+                <div class="legend-item">
+                    <div class="legend-color answer-1"></div>
+                    <span>Ответ 1</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color answer-2"></div>
+                    <span>Ответ 2</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color answer-3"></div>
+                    <span>Ответ 3</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color answer-4"></div>
+                    <span>Ответ 4</span>
+                </div>
+            </div>
+            <button id="close-audience-modal">Закрыть</button>
+        </div>
+    </div>
+
+    <audio id="sound-click" src="sounds/click.mp3"></audio>
+    <audio id="sound-answer" src="sounds/answer.mp3"></audio>
+    <audio id="sound-hint" src="sounds/podskazka.mp3"></audio>
+    <audio id="sound-correct" src="sounds/click_correct.mp3"></audio>
+    <audio id="sound-wrong" src="sounds/click_wrong.mp3"></audio>
+    <audio id="sound-start" src="sounds/start.mp3"></audio>
+
     <script src="questions.js"></script>
     <script src="script.js"></script>
 </body>
