@@ -93,15 +93,22 @@ button:hover {
 .header {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 30px;
+    align-items: center;
+    margin-bottom: 20px;
     padding: 10px;
     background: rgba(255, 215, 0, 0.1);
     border-radius: 10px;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .score, .question-number {
     font-size: 1.2em;
     color: #ffd700;
+    padding: 5px 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    white-space: nowrap;
 }
 
 .question-container {
@@ -177,6 +184,44 @@ button:hover {
     
     .answer-btn {
         font-size: 1em;
+    }
+
+    .header {
+        padding: 8px;
+        margin-bottom: 15px;
+    }
+
+    .score, .question-number {
+        font-size: 1em;
+        padding: 4px 8px;
+    }
+}
+
+@media (max-width: 400px) {
+    .container {
+        padding: 10px;
+    }
+    
+    h1 {
+        font-size: 1.8em;
+    }
+    
+    .question-text {
+        font-size: 1.2em;
+    }
+    
+    .answer-btn {
+        font-size: 1em;
+    }
+
+    .header {
+        padding: 5px;
+        margin-bottom: 10px;
+    }
+
+    .score, .question-number {
+        font-size: 0.9em;
+        padding: 3px 6px;
     }
 }
 
