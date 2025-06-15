@@ -82,12 +82,12 @@ function startGame() {
     showQuestion();
     
     // Скрываем все экраны
-    startScreen.style.display = 'none';
-    rulesScreen.style.display = 'none';
-    endScreen.style.display = 'none';
+    startScreen.classList.add('hidden');
+    rulesScreen.classList.add('hidden');
+    endScreen.classList.add('hidden');
     
     // Показываем экран игры
-    gameScreen.style.display = 'block';
+    gameScreen.classList.remove('hidden');
     
     resetHints();
 }
@@ -168,11 +168,9 @@ function updateScore() {
 function endGame(isWin) {
     gameScreen.classList.add('hidden');
     endScreen.classList.remove('hidden');
-    if (isWin) {
-        endMessage.textContent = 'Поздравляю, вы - медиаграмотный!';
-    } else {
-        endMessage.textContent = `Игра окончена! Ваш счет: ${score}`;
-    }
+    const finalScore = document.getElementById('final-score');
+    finalScore.textContent = score;
+    playSound('sound-answer');
 }
 
 // Функция для сброса подсказок
