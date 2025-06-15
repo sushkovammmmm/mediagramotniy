@@ -189,11 +189,10 @@ button:hover {
     .header {
         padding: 8px;
         margin-bottom: 15px;
-        justify-content: center;
     }
 
     .score, .question-number {
-        font-size: 0.9em;
+        font-size: 1em;
         padding: 4px 8px;
     }
 }
@@ -218,15 +217,11 @@ button:hover {
     .header {
         padding: 5px;
         margin-bottom: 10px;
-        flex-direction: column;
-        gap: 5px;
     }
 
     .score, .question-number {
-        font-size: 0.85em;
+        font-size: 0.9em;
         padding: 3px 6px;
-        width: 100%;
-        text-align: center;
     }
 }
 

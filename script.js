@@ -17,11 +17,12 @@ const gameScreen = document.getElementById('game-screen');
 const endScreen = document.getElementById('end-screen');
 const startButton = document.getElementById('start-button');
 const startGameButton = document.getElementById('start-game-button');
+const restartButton = document.getElementById('restart-button');
 const questionText = document.getElementById('question-text');
 const answerButtons = document.querySelectorAll('.answer-btn');
 const currentScoreElement = document.getElementById('current-score');
 const currentQuestionElement = document.getElementById('current-question');
-const finalScoreElement = document.getElementById('final-score');
+const endMessage = document.getElementById('end-message');
 
 // Получаем элементы подсказок
 const fiftyFiftyBtn = document.getElementById('fifty-fifty');
@@ -81,12 +82,12 @@ function startGame() {
     showQuestion();
     
     // Скрываем все экраны
-    startScreen.classList.add('hidden');
-    rulesScreen.classList.add('hidden');
-    endScreen.classList.add('hidden');
+    startScreen.style.display = 'none';
+    rulesScreen.style.display = 'none';
+    endScreen.style.display = 'none';
     
     // Показываем экран игры
-    gameScreen.classList.remove('hidden');
+    gameScreen.style.display = 'block';
     
     resetHints();
 }
@@ -97,19 +98,10 @@ function showQuestion() {
     questionText.textContent = question.question;
     currentQuestionElement.textContent = currentQuestion + 1;
 
-    // Сбрасываем состояние кнопок
     answerButtons.forEach((button, index) => {
         button.textContent = question.answers[index];
         button.classList.remove('correct', 'wrong');
         button.disabled = false;
-        button.style.pointerEvents = 'auto';
-        
-        // Удаляем старые обработчики
-        button.removeEventListener('click', button.clickHandler);
-        
-        // Добавляем новый обработчик
-        button.clickHandler = () => checkAnswer(index);
-        button.addEventListener('click', button.clickHandler);
     });
 }
 
@@ -120,13 +112,9 @@ function checkAnswer(selectedIndex) {
     const correctButton = answerButtons[question.correct];
 
     // Отключаем все кнопки
-    answerButtons.forEach(button => {
-        button.disabled = true;
-        button.style.pointerEvents = 'none';
-    });
+    answerButtons.forEach(button => button.disabled = true);
 
     if (selectedIndex === question.correct) {
-        // Правильный ответ
         playSound('sound-correct');
         selectedButton.classList.add('correct');
         score += 100;
@@ -142,17 +130,32 @@ function checkAnswer(selectedIndex) {
             }
         }, 1500);
     } else {
-        // Неправильный ответ
         playSound('sound-wrong');
         selectedButton.classList.add('wrong');
         correctButton.classList.add('correct');
         
-        // Показываем экран окончания игры
-        setTimeout(() => {
-            gameScreen.classList.add('hidden');
-            endScreen.classList.remove('hidden');
-            finalScoreElement.textContent = score;
-        }, 1500);
+        // Создаем и показываем кнопку "Начать заново"
+        const restartButton = document.createElement('button');
+        restartButton.textContent = 'Начать заново';
+        restartButton.className = 'restart-button';
+        restartButton.style.marginTop = '20px';
+        restartButton.addEventListener('click', () => {
+            // Скрываем все экраны
+            startScreen.style.display = 'none';
+            rulesScreen.style.display = 'none';
+            gameScreen.style.display = 'none';
+            endScreen.style.display = 'none';
+            
+            // Показываем стартовый экран
+            startScreen.style.display = 'block';
+            
+            // Удаляем кнопку "Начать заново"
+            restartButton.remove();
+        });
+        
+        // Добавляем кнопку после ответов
+        const answersContainer = document.querySelector('.answers');
+        answersContainer.appendChild(restartButton);
     }
 }
 
@@ -165,7 +168,11 @@ function updateScore() {
 function endGame(isWin) {
     gameScreen.classList.add('hidden');
     endScreen.classList.remove('hidden');
-    finalScoreElement.textContent = score;
+    if (isWin) {
+        endMessage.textContent = 'Поздравляю, вы - медиаграмотный!';
+    } else {
+        endMessage.textContent = `Игра окончена! Ваш счет: ${score}`;
+    }
 }
 
 // Функция для сброса подсказок
@@ -322,18 +329,24 @@ function useAudienceHelp() {
 
 // Добавляем обработчики событий
 startButton.addEventListener('click', function() {
-    startScreen.classList.add('hidden');
-    rulesScreen.classList.remove('hidden');
-    gameScreen.classList.add('hidden');
-    endScreen.classList.add('hidden');
+    startScreen.style.display = 'none';
+    rulesScreen.style.display = 'block';
+    gameScreen.style.display = 'none';
+    endScreen.style.display = 'none';
     playSound('sound-start');
 });
 
-startGameButton.addEventListener('click', startGame);
+startGameButton.addEventListener('click', function() {
+    startGame();
+});
 
-// Добавляем обработчики для кнопок ответов
-answerButtons.forEach((button, index) => {
-    button.addEventListener('click', () => checkAnswer(index));
+restartButton.addEventListener('click', startGame);
+
+answerButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const selectedIndex = parseInt(button.dataset.index);
+        checkAnswer(selectedIndex);
+    });
 });
 
 // Добавляем обработчики событий для подсказок
@@ -367,16 +380,73 @@ document.querySelectorAll('.hint-btn').forEach(btn => {
 function playSound(id) {
     const sound = document.getElementById(id);
     if (sound) {
-        sound.currentTime = 0;
+        sound.currentTime = 0; // Сбрасываем время воспроизведения
         sound.play().catch(error => {
             console.log('Ошибка воспроизведения звука:', error);
         });
     }
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+    const startScreen = document.getElementById('start-screen');
+    const rulesScreen = document.getElementById('rules-screen');
+    const gameScreen = document.getElementById('game-screen');
+    const startButton = document.getElementById('start-button');
+    const startGameButton = document.getElementById('start-game-button');
+    const questionElement = document.getElementById('question');
+    const answersElement = document.getElementById('answers');
+    const scoreElement = document.getElementById('score');
+    const hint5050Button = document.getElementById('hint-5050');
+    const hintCallButton = document.getElementById('hint-call');
+    const hintAudienceButton = document.getElementById('hint-audience');
+    const hint5050Used = document.getElementById('hint-5050-used');
+    const hintCallUsed = document.getElementById('hint-call-used');
+    const hintAudienceUsed = document.getElementById('hint-audience-used');
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let questions = [];
+    let hintsUsed = {
+        '5050': false,
+        'call': false,
+        'audience': false
+    };
+
+    // Обработчик для первой кнопки "Начать игру"
+    startButton.addEventListener('click', function() {
+        startScreen.style.display = 'none';
+        rulesScreen.style.display = 'block';
+        gameScreen.style.display = 'none';
+        endScreen.style.display = 'none';
+        playSound('sound-start');
+    });
+
+    // Обработчик для второй кнопки "Начать игру" на экране правил
+    startGameButton.addEventListener('click', function() {
+        startGame();
+    });
+
+    // ... rest of the existing code ...
+});
+
 // Добавляем обработчик для кнопки "Играть заново"
 document.getElementById('play-again-button').addEventListener('click', () => {
-    endScreen.classList.add('hidden');
-    rulesScreen.classList.remove('hidden');
+    // Скрываем экран окончания игры
+    document.getElementById('end-screen').classList.add('hidden');
+    
+    // Сбрасываем состояние игры
+    score = 0;
+    currentQuestionIndex = 0;
+    usedHints = {
+        fifty: false,
+        friend: false,
+        audience: false
+    };
+    
+    // Перемешиваем вопросы
+    shuffleQuestions();
+    
+    // Показываем экран с правилами
+    document.getElementById('rules-screen').classList.remove('hidden');
     playSound('sound-start');
 }); 
