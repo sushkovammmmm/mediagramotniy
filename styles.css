@@ -505,4 +505,74 @@ button:hover {
     100% {
         box-shadow: 0 0 0 0 rgba(255, 68, 68, 0);
     }
+}
+
+#win-screen {
+    text-align: center;
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+#win-screen h2 {
+    color: #ffd700;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+#win-screen p {
+    color: #fff;
+    font-size: 1.8em;
+    margin-bottom: 30px;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+#win-screen button {
+    background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
+    color: #000;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    text-transform: uppercase;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+#win-screen button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+@media (max-width: 600px) {
+    #win-screen h2 {
+        font-size: 2em;
+    }
+    
+    #win-screen p {
+        font-size: 1.5em;
+    }
+    
+    #win-screen button {
+        font-size: 1.1em;
+        padding: 12px 25px;
+    }
+}
+
+@media (max-width: 400px) {
+    #win-screen h2 {
+        font-size: 1.8em;
+    }
+    
+    #win-screen p {
+        font-size: 1.3em;
+    }
+    
+    #win-screen button {
+        font-size: 1em;
+        padding: 10px 20px;
+    }
 } 

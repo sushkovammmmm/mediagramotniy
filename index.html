@@ -13,7 +13,7 @@
             <button id="start-button">Начать игру</button>
         </div>
 
-        <div id="rules-screen" style="display: none;">
+        <div id="rules-screen" class="screen hidden">
             <div class="rules-content">
                 <h2>Добро пожаловать в игру "Кто хочет стать медиаграмотным?"</h2>
                 <p>Проверьте свою способность отличать правду от фейков, манипуляции от фактов и станьте настоящим экспертом в медиапространстве!</p>
@@ -47,9 +47,9 @@
             </div>
 
             <div class="hints-container">
-                <button id="fifty-fifty" class="hint-btn" title="50:50">50:50</button>
-                <button id="call-friend" class="hint-btn" title="Звонок внуку">Звонок внуку</button>
-                <button id="audience-help" class="hint-btn" title="Помощь зала">Помощь зала</button>
+                <button id="fifty-fifty" class="hint-btn" title="50:50" onclick="useFiftyFifty()">50:50</button>
+                <button id="call-friend" class="hint-btn" title="Звонок внуку" onclick="useCallFriend()">Звонок внуку</button>
+                <button id="audience-help" class="hint-btn" title="Помощь зала" onclick="useAudienceHelp()">Помощь зала</button>
             </div>
 
             <div class="question-container">
@@ -64,8 +64,15 @@
         </div>
 
         <div id="end-screen" class="screen hidden">
-            <h2 id="end-message"></h2>
-            <button id="restart-button">Играть снова</button>
+            <h2>Игра окончена!</h2>
+            <p>Ваш счет: <span id="final-score">0</span></p>
+            <button onclick="startGame()">Начать заново</button>
+        </div>
+
+        <div id="win-screen" class="screen hidden">
+            <h2>Поздравляем!</h2>
+            <p>Вы - медиаграмотный!</p>
+            <button onclick="startGame()">Начать заново</button>
         </div>
     </div>
 
@@ -74,7 +81,7 @@
         <div class="modal-content">
             <div class="friend-image"></div>
             <p id="friend-answer"></p>
-            <button id="close-modal">Закрыть</button>
+            <button id="close-modal" onclick="document.getElementById('call-friend-modal').classList.add('hidden'); document.getElementById('friend-answer').textContent = '';">Закрыть</button>
         </div>
     </div>
 
@@ -101,11 +108,10 @@
                     <span>Ответ 4</span>
                 </div>
             </div>
-            <button id="close-audience-modal">Закрыть</button>
+            <button id="close-audience-modal" onclick="document.getElementById('audience-modal').classList.add('hidden');">Закрыть</button>
         </div>
     </div>
 
-    <audio id="sound-answer" src="sounds/answer.mp3"></audio>
     <audio id="sound-hint" src="sounds/podskazka.mp3"></audio>
     <audio id="sound-correct" src="sounds/click_correct.mp3"></audio>
     <audio id="sound-wrong" src="sounds/click_wrong.mp3"></audio>
