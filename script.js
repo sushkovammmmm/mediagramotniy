@@ -126,7 +126,7 @@ function checkAnswer(selectedIndex) {
             if (currentQuestion < questions.length) {
                 showQuestion();
             } else {
-                endGame(true);
+                showCongratsScreen();
             }
         }, 1500);
     } else {
@@ -386,6 +386,29 @@ function playSound(id) {
         });
     }
 }
+
+function showCongratsScreen() {
+    document.getElementById('game-screen').classList.add('hidden');
+    document.getElementById('congrats-screen').classList.remove('hidden');
+}
+
+function restartGame() {
+    currentQuestion = 0;
+    score = 0;
+    hints = {
+        fiftyFifty: true,
+        callFriend: true,
+        audienceHelp: true
+    };
+    
+    document.getElementById('congrats-screen').classList.add('hidden');
+    document.getElementById('end-screen').classList.add('hidden');
+    document.getElementById('rules-screen').classList.remove('hidden');
+    updateScore();
+}
+
+// Добавляем обработчик для кнопки "Начать заново"
+document.getElementById('restart-game-button').addEventListener('click', restartGame);
 
 document.addEventListener('DOMContentLoaded', function() {
     const startScreen = document.getElementById('start-screen');
